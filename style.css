@@ -1,0 +1,40 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #f8f9fa; /* Light gray background */
+}
+
+.container {
+  position: relative;
+  height: 100vh;
+  overflow: auto;
+  padding-bottom: 80px; /* Space for buttons */
+}
+
+.button-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #343a40; /* Dark gray background for button container */
+  padding: 10px 0;
+}
+
+button, p {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  background-color: #007bff; /* Blue color for buttons */
+  color: #ffffff; /* White text color for buttons */
+  border-radius: 5px; /* Rounded corners for buttons */
+}
+
+.novel {
+  font-weight: bold;
+}
+
+.sub-item {
+  display: none;
+}
