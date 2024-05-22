@@ -1,3 +1,4 @@
+
 body {
   margin: 0;
   padding: 0;
@@ -35,6 +36,3 @@ button, p {
   font-weight: bold;
 }
 
-.sub-item {
-  display: none;
-}
