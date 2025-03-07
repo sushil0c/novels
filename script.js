@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetch radio stations from the URL
     const fetchRadioStations = async () => {
         try {
-            const response = await fetch('https://github.com/sushil0c/novels/blob/1237c976cf8c94b1bce0b94bce70c6872a6b69ce/radio.json');
+            const response = await fetch('https://raw.githubusercontent.com/sushil0c/novels/main/radio.json');
             stationsList = await response.json();
             renderRadioStations(stationsList);
         } catch (error) {
