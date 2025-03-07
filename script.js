@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fetching the radio stations from the local JSON file
     const fetchRadioStations = async () => {
         try {
-            const response = await fetch('./radio.json');  // Relative path to your local JSON file
+            const response = await fetch('radio.json');  // Relative path to your local JSON file
             stations = await response.json();
             renderRadioStations(stations);
         } catch (error) {
