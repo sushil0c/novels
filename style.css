@@ -1,77 +1,75 @@
-/* Style for the radio list */
-#radioListContainer {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
+/* Basic Styles */
+body {
+    font-family: Arial, sans-serif;
 }
 
-.radio-item {
-    background: #f0f0f0;
-    margin: 10px 0;
-    padding: 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-.radio-item:hover {
-    background: #ccc;
-}
-
-#radioList input {
-    padding: 10px;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-/* Player Styles */
-#player {
-    padding: 20px;
-    position: relative;
-}
-
-#stationDetails {
+header {
+    text-align: center;
     margin-top: 20px;
 }
 
-/* Fixed Controls at the Bottom */
-#controls {
-    position: fixed;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
+#radioList {
+    margin-top: 20px;
+    padding: 15px;
     display: flex;
-    justify-content: center;
-    width: 100%;
-    gap: 10px;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 10px;
+    flex-direction: column;
 }
 
-#controls button {
-    background: #fff;
-    padding: 10px 15px;
+#radioListContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.radio-item {
+    margin: 10px;
+    padding: 15px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.radio-item:hover {
+    transform: scale(1.05);
+}
+
+#player {
+    display: none;
+    padding: 20px;
+    text-align: center;
+}
+
+#controls {
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px;
+    margin: 10px;
+    background-color: #008CBA;
+    color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
 }
 
-#controls button:hover {
-    background: #aaa;
+button:hover {
+    background-color: #005f73;
 }
 
-/* Mobile-Specific Styles */
-@media (max-width: 768px) {
-    #header {
-        text-align: center;
-    }
+input[type="range"] {
+    margin-top: 10px;
+}
 
-    #stationDetails {
-        font-size: 14px;
-    }
+/* Transition Animation for Radio Items */
+.radio-item {
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
 
-    #audioPlayer {
-        width: 100%;
-        margin-bottom: 10px;
+@keyframes fadeIn {
+    to {
+        opacity: 1;
     }
 }

@@ -7,40 +7,39 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header -->
+    <!-- Header Section -->
     <header id="header">
         <h1>Radio Stations</h1>
         <input type="text" id="search" placeholder="Search for a station...">
     </header>
-    
+
     <!-- Radio List Section -->
     <section id="radioList">
         <div id="radioListContainer"></div>
     </section>
-    
+
     <!-- Player Section -->
     <section id="player" style="display: none;">
-        <div id="header"></div>
+        <div id="playerHeader">
+            <button id="backButton">Back to Stations</button>
+            <h1 id="stationName"></h1>
+        </div>
         <audio id="audioPlayer" controls>
             Your browser does not support the audio element.
         </audio>
-        
-        <!-- FM Station Full Details -->
-        <section id="stationDetails">
-            <!-- All FM station details will be inserted here -->
-        </section>
-        
-        <!-- Fixed Buttons at Bottom -->
+
+        <!-- Play, Pause, Previous, Next Buttons -->
         <div id="controls">
-            <button id="prevButton">Previous</button>
+            <button id="prevButton">Prev</button>
             <button id="playPause">Play</button>
             <button id="nextButton">Next</button>
         </div>
-        
+
         <!-- Volume Control -->
-        <div>
-            <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1">
-        </div>
+        <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1">
+
+        <!-- Station Details -->
+        <section id="stationDetails"></section>
     </section>
 
     <script src="script.js"></script>
