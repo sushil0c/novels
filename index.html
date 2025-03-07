@@ -12,12 +12,12 @@
         <h1>Radio Stations</h1>
         <input type="text" id="search" placeholder="Search for a station...">
     </header>
-
+    
     <!-- Radio List Section -->
     <section id="radioList">
         <div id="radioListContainer"></div>
     </section>
-
+    
     <!-- Player Section -->
     <section id="player" style="display: none;">
         <div id="header"></div>
@@ -25,17 +25,22 @@
             Your browser does not support the audio element.
         </audio>
         
+        <!-- FM Station Full Details -->
         <section id="stationDetails">
             <!-- All FM station details will be inserted here -->
         </section>
-
-        <!-- Fixed Bottom Controls -->
-        <section id="bottomControls">
-            <button id="prevButton">Prev</button>
+        
+        <!-- Fixed Buttons at Bottom -->
+        <div id="controls">
+            <button id="prevButton">Previous</button>
             <button id="playPause">Play</button>
             <button id="nextButton">Next</button>
+        </div>
+        
+        <!-- Volume Control -->
+        <div>
             <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1">
-        </section>
+        </div>
     </section>
 
     <script src="script.js"></script>
