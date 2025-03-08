@@ -1,4 +1,3 @@
-
 document.addEventListener('DOMContentLoaded', () => {
     const radioListContainer = document.getElementById('radioListContainer');
     const searchInput = document.getElementById('search');
@@ -9,24 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextButton = document.getElementById('nextButton');
     const volumeControl = document.getElementById('volumeControl');
     const audioPlayer = document.getElementById('audioPlayer');
-    const backButton = document.getElementById('backButton');
     const stationDetails = document.getElementById('stationDetails');
     const header = document.getElementById('header');
+    const backButton = document.getElementById('backButton');
 
     let currentStationIndex = 0;
-    let stationsList = [];
-
-    // Fetch radio stations from the URL
-    const fetchRadioStations = async () => {
-        try {
-            const response = await fetch('radio_list.json');
-            stationsList = await response.json();
-            renderRadioStations(stationsList);
-        } catch (error) {
-            console.error('Error fetching radio stations:', error);
-            alert('Failed to load radio stations. Please try again later.');
-        }
-    };
+    let stationsList = radioStations; // Use the global variable from radio.js
 
     // Render radio stations on the main page
     const renderRadioStations = (stations) => {
@@ -34,10 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         stations.forEach((station, index) => {
             const div = document.createElement('div');
             div.classList.add('radio-item');
-            div.innerHTML = `
-                <h3>${station.name}</h3>
-                <!-- Removed Frequency and Location from the main page -->
-            `;
+            div.innerHTML = `<h3>${station.name}</h3>`;
             div.addEventListener('click', () => {
                 showPlayer(station, index);
             });
@@ -49,14 +33,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const showPlayer = (station, index) => {
         currentStationIndex = index; // Save the current station index
         header.innerHTML = `
-            <button id="backButton">Back to Stations</button>
+            <button id="backButton">Back</button>
             <h1 id="stationName">${station.name}</h1>
         `;
         stationDetails.innerHTML = `
             <h2>Station Details</h2>
             <p><strong>Name:</strong> ${station.name}</p>
             <p><strong>Description:</strong> ${station.description || 'No description available.'}</p>
-            <p><strong>Frequency:</strong> ${station.frequency} MHz</p>
             <p><strong>Location:</strong> ${station.address}</p>
         `;
 
@@ -68,20 +51,18 @@ document.addEventListener('DOMContentLoaded', () => {
         // Show player section
         playerSection.style.display = 'block';
         radioListSection.style.display = 'none';
-    };
 
-    // Back button to return to the main page
-    backButton.addEventListener('click', () => {
-        playerSection.style.display = 'none';
-        radioListSection.style.display = 'block';
-    });
+        // Add event listener to back button dynamically
+        document.getElementById('backButton').addEventListener('click', () => {
+            playerSection.style.display = 'none';
+            radioListSection.style.display = 'block';
+        });
+    };
 
     // Play/Pause button
     playPauseButton.addEventListener('click', () => {
         if (audioPlayer.paused) {
-            audioPlayer.play().catch(error => {
-                alert('Error playing the radio stream. Please try again.');
-            });
+            audioPlayer.play();
             playPauseButton.textContent = 'Pause';
         } else {
             audioPlayer.pause();
@@ -113,6 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
         renderRadioStations(filteredStations);
     });
 
-    // Fetch and load stations when the page loads
-    fetchRadioStations();
+    // Load stations when the page loads
+    renderRadioStations(stationsList);
 });
