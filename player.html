@@ -60,7 +60,6 @@
             top: 20px;
             left: 20px;
         }
-
     </style>
 </head>
 <body>
@@ -87,6 +86,7 @@
     <!-- Volume Control -->
     <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1">
 
+    <script src="radio.js"></script>
     <script>
         // Get the selected station from localStorage
         const currentStation = JSON.parse(localStorage.getItem('currentStation'));
@@ -97,32 +97,12 @@
         const backButton = document.getElementById('backButton');
         const stationDetails = document.getElementById('stationDetails');
 
-        const radioStations = [
-            {
-                name: "Station 1",
-                description: "This is the first radio station.",
-                address: "Location of Station 1",
-                streamUrl: "http://streaming-url-1.com/stream.mp3"
-            },
-            {
-                name: "Station 2",
-                description: "This is the second radio station.",
-                address: "Location of Station 2",
-                streamUrl: "http://streaming-url-2.com/stream.mp3"
-            },
-            {
-                name: "Station 3",
-                description: "This is the third radio station.",
-                address: "Location of Station 3",
-                streamUrl: "http://streaming-url-3.com/stream.mp3"
-            }
-        ];
-
-        // Show player and station details
         if (!currentStation) {
             alert('No station data found.');
+            window.location.href = 'index.html'; // Redirect to the main page if no station data is found
         }
 
+        // Show player and station details
         document.getElementById('stationName').textContent = currentStation.name;
         stationDetails.innerHTML = `
             <h2>Station Details</h2>
@@ -166,7 +146,7 @@
 
         // Back button to go back to the station list
         backButton.addEventListener('click', () => {
-            window.history.back(); // Go back to the station list page
+            window.location.href = 'index.html'; // Redirect back to the main page
         });
 
         // Volume control functionality
