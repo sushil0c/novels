@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const radioListContainer = document.getElementById('radioListContainer');
     const searchInput = document.getElementById('search');
     
+    // Render radio stations
     const renderRadioStations = (stations) => {
         radioListContainer.innerHTML = ''; // Clear existing list
         stations.forEach((station, index) => {
