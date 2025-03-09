@@ -5,7 +5,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Radio Stations</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Basic Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #faafe3;
+            color: #f0f0ff;
+        }
+
+        header {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #radioList {
+            margin-top: 20px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #radioListContainer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .radio-item {
+            margin: 10px;
+            padding: 15px;
+            background-color: #f5f5f5;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .radio-item:hover {
+            transform: scale(1.05);
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 200px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
     <!-- Header Section -->
@@ -19,7 +63,56 @@
         <div id="radioListContainer"></div>
     </section>
 
-    <script src="radio.js"></script> <!-- Include radio.js -->
-    <script src="script.js"></script> <!-- Include script.js -->
+    <script>
+        // Radio Stations Data
+        const radioStations = [
+            {
+                name: "Station 1",
+                description: "This is the first radio station.",
+                address: "Location of Station 1",
+                streamUrl: "http://streaming-url-1.com/stream.mp3"
+            },
+            {
+                name: "Station 2",
+                description: "This is the second radio station.",
+                address: "Location of Station 2",
+                streamUrl: "http://streaming-url-2.com/stream.mp3"
+            },
+            {
+                name: "Station 3",
+                description: "This is the third radio station.",
+                address: "Location of Station 3",
+                streamUrl: "http://streaming-url-3.com/stream.mp3"
+            }
+        ];
+
+        // Render radio stations
+        const renderRadioStations = (stations) => {
+            const radioListContainer = document.getElementById('radioListContainer');
+            radioListContainer.innerHTML = ''; // Clear existing list
+            stations.forEach((station, index) => {
+                const div = document.createElement('div');
+                div.classList.add('radio-item');
+                div.innerHTML = `<h3>${station.name}</h3>`;
+                div.addEventListener('click', () => {
+                    // Store the station data in localStorage
+                    localStorage.setItem('currentStation', JSON.stringify(station));
+                    window.location.href = 'player.html'; // Navigate to the player page
+                });
+                radioListContainer.appendChild(div);
+            });
+        };
+
+        // Search functionality
+        const searchInput = document.getElementById('search');
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            const filteredStations = radioStations.filter(station => station.name.toLowerCase().includes(query));
+            renderRadioStations(filteredStations);
+        });
+
+        // Initial render
+        renderRadioStations(radioStations);
+    </script>
 </body>
 </html>
