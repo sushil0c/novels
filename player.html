@@ -1,45 +1,34 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Radio Player</title>
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <!-- Header Section -->
-    <header id="header">
-        <button id="backButton">Back to Stations</button>
-        <h1 id="stationName"></h1>
-    </header>
-
     <!-- Player Section -->
     <section id="player">
+        <div id="playerHeader">
+            <button id="backButton">Back to Stations</button>
+            <h1 id="stationName"></h1>
+        </div>
         <audio id="audioPlayer" controls>
             Your browser does not support the audio element.
         </audio>
-        
-        <!-- Play, Pause, Previous, Next Buttons -->
         <div id="controls">
-            <button id="prevButton">Prev</button>
             <button id="playPause">Play</button>
+            <button id="prevButton">Prev</button>
             <button id="nextButton">Next</button>
         </div>
-
         <!-- Volume Control -->
         <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1">
-
         <!-- Station Details -->
         <section id="stationDetails"></section>
-
-        <!-- Recording Buttons -->
-        <button id="recordButton">Start Recording</button>
-        <button id="stopButton" disabled>Stop Recording</button>
     </section>
 
-    <script src="script.js"></script>
+    <script src="radio.js"></script> <!-- Include radio.js -->
+    <script src="script.js"></script> <!-- Include script.js -->
 </body>
-
 </html>
