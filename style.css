@@ -1,6 +1,9 @@
+
 /* Basic Styles */
 body {
     font-family: Arial, sans-serif;
+    background-color: #faafe3;
+    color: #f0f0ff;
 }
 
 header {
@@ -60,16 +63,4 @@ button:hover {
 
 input[type="range"] {
     margin-top: 10px;
-}
-
-/* Transition Animation for Radio Items */
-.radio-item {
-    opacity: 0;
-    animation: fadeIn 1s forwards;
-}
-
-@keyframes fadeIn {
-    to {
-        opacity: 1;
-    }
 }
