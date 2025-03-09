@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Radio Stations</title>
     <style>
-        /* Basic Styles */
         body {
             font-family: Arial, sans-serif;
             background-color: #faafe3;
@@ -62,29 +62,8 @@
         <div id="radioListContainer"></div>
     </section>
 
+    <script src="radio.js"></script>
     <script>
-        // Radio Stations Data
-        const radioStations = [
-            {
-                name: "Station 1",
-                description: "This is the first radio station.",
-                address: "Location of Station 1",
-                streamUrl: "http://streaming-url-1.com/stream.mp3"
-            },
-            {
-                name: "Station 2",
-                description: "This is the second radio station.",
-                address: "Location of Station 2",
-                streamUrl: "http://streaming-url-2.com/stream.mp3"
-            },
-            {
-                name: "Station 3",
-                description: "This is the third radio station.",
-                address: "Location of Station 3",
-                streamUrl: "http://streaming-url-3.com/stream.mp3"
-            }
-        ];
-
         // Render radio stations
         const renderRadioStations = (stations) => {
             const radioListContainer = document.getElementById('radioListContainer');
