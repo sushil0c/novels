@@ -6,15 +6,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Radio Player</title>
     <style>
-        /* Basic Styles */
         body {
             font-family: Arial, sans-serif;
             background-color: #faafe3;
             color: #f0f0ff;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100vh;
+            margin: 0;
         }
 
         #player {
+            flex-grow: 1;
             padding: 20px;
         }
 
@@ -39,6 +44,24 @@
         #stationDetails {
             margin-top: 20px;
         }
+
+        /* Buttons at the bottom */
+        #controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        #backButton {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+        }
+
     </style>
 </head>
 <body>
@@ -51,30 +74,56 @@
         <audio id="audioPlayer" controls>
             Your browser does not support the audio element.
         </audio>
-        <div id="controls">
-            <button id="playPause">Play</button>
-            <button id="prevButton">Prev</button>
-            <button id="nextButton">Next</button>
-        </div>
-        <!-- Volume Control -->
-        <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1">
+
         <!-- Station Details -->
         <section id="stationDetails"></section>
     </section>
+
+    <div id="controls">
+        <button id="prevButton">Prev</button>
+        <button id="playPause">Play</button>
+        <button id="nextButton">Next</button>
+    </div>
+
+    <!-- Volume Control -->
+    <input type="range" id="volumeControl" min="0" max="1" step="0.01" value="1">
 
     <script>
         // Get the selected station from localStorage
         const currentStation = JSON.parse(localStorage.getItem('currentStation'));
         const audioPlayer = document.getElementById('audioPlayer');
         const playPauseButton = document.getElementById('playPause');
+        const prevButton = document.getElementById('prevButton');
+        const nextButton = document.getElementById('nextButton');
         const backButton = document.getElementById('backButton');
         const stationDetails = document.getElementById('stationDetails');
 
+        const radioStations = [
+            {
+                name: "Station 1",
+                description: "This is the first radio station.",
+                address: "Location of Station 1",
+                streamUrl: "http://streaming-url-1.com/stream.mp3"
+            },
+            {
+                name: "Station 2",
+                description: "This is the second radio station.",
+                address: "Location of Station 2",
+                streamUrl: "http://streaming-url-2.com/stream.mp3"
+            },
+            {
+                name: "Station 3",
+                description: "This is the third radio station.",
+                address: "Location of Station 3",
+                streamUrl: "http://streaming-url-3.com/stream.mp3"
+            }
+        ];
+
+        // Show player and station details
         if (!currentStation) {
             alert('No station data found.');
         }
 
-        // Show player and station details
         document.getElementById('stationName').textContent = currentStation.name;
         stationDetails.innerHTML = `
             <h2>Station Details</h2>
@@ -97,6 +146,23 @@
                 audioPlayer.pause();
                 playPauseButton.textContent = 'Play';
             }
+        });
+
+        // Previous and Next buttons
+        let currentStationIndex = radioStations.findIndex(station => station.name === currentStation.name);
+
+        prevButton.addEventListener('click', () => {
+            currentStationIndex = (currentStationIndex - 1 + radioStations.length) % radioStations.length;
+            const prevStation = radioStations[currentStationIndex];
+            localStorage.setItem('currentStation', JSON.stringify(prevStation));
+            window.location.reload();
+        });
+
+        nextButton.addEventListener('click', () => {
+            currentStationIndex = (currentStationIndex + 1) % radioStations.length;
+            const nextStation = radioStations[currentStationIndex];
+            localStorage.setItem('currentStation', JSON.stringify(nextStation));
+            window.location.reload();
         });
 
         // Back button to go back to the station list
