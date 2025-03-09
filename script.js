@@ -11,9 +11,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const stationDetails = document.getElementById('stationDetails');
     const header = document.getElementById('header');
     const backButton = document.getElementById('backButton');
-
+    const recordButton = document.getElementById('recordButton');
+    const stopButton = document.getElementById('stopButton');
     let currentStationIndex = 0;
-    let stationsList = radioStations; // Use the global variable from radio.js
+    let stationsList = radioStations; // Assuming radioStations is defined globally in radio.js
+    let mediaRecorder;
+    let audioChunks = [];
 
     // Render radio stations on the main page
     const renderRadioStations = (stations) => {
@@ -23,15 +26,15 @@ document.addEventListener('DOMContentLoaded', () => {
             div.classList.add('radio-item');
             div.innerHTML = `<h3>${station.name}</h3>`;
             div.addEventListener('click', () => {
-                showPlayer(station, index);
+                localStorage.setItem('currentStation', JSON.stringify(station));
+                window.location.href = 'player.html';
             });
             radioListContainer.appendChild(div);
         });
     };
 
-    // Show the player with selected station
-    const showPlayer = (station, index) => {
-        currentStationIndex = index; // Save the current station index
+    // Show player with selected station
+    const showPlayer = (station) => {
         header.innerHTML = `
             <button id="backButton">Back</button>
             <h1 id="stationName">${station.name}</h1>
@@ -42,24 +45,21 @@ document.addEventListener('DOMContentLoaded', () => {
             <p><strong>Description:</strong> ${station.description || 'No description available.'}</p>
             <p><strong>Location:</strong> ${station.address}</p>
         `;
-
-        // Set the audio source and play
         audioPlayer.src = station.streamUrl;
         audioPlayer.load();
         audioPlayer.play();
-
-        // Show player section
         playerSection.style.display = 'block';
         radioListSection.style.display = 'none';
 
-        // Add event listener to back button dynamically
-        document.getElementById('backButton').addEventListener('click', () => {
+        // Back button functionality
+        backButton.addEventListener('click', () => {
             playerSection.style.display = 'none';
             radioListSection.style.display = 'block';
+            window.history.back(); // Go back to the main page
         });
     };
 
-    // Play/Pause button
+    // Play/Pause button functionality
     playPauseButton.addEventListener('click', () => {
         if (audioPlayer.paused) {
             audioPlayer.play();
@@ -70,16 +70,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Previous button
+    // Previous button functionality
     prevButton.addEventListener('click', () => {
         currentStationIndex = (currentStationIndex - 1 + stationsList.length) % stationsList.length;
-        showPlayer(stationsList[currentStationIndex], currentStationIndex);
+        const previousStation = stationsList[currentStationIndex];
+        showPlayer(previousStation);
     });
 
-    // Next button
+    // Next button functionality
     nextButton.addEventListener('click', () => {
         currentStationIndex = (currentStationIndex + 1) % stationsList.length;
-        showPlayer(stationsList[currentStationIndex], currentStationIndex);
+        const nextStation = stationsList[currentStationIndex];
+        showPlayer(nextStation);
     });
 
     // Volume control
@@ -94,6 +96,55 @@ document.addEventListener('DOMContentLoaded', () => {
         renderRadioStations(filteredStations);
     });
 
-    // Load stations when the page loads
-    renderRadioStations(stationsList);
+    // Handle the page load and render appropriate content based on the current page
+    if (window.location.pathname.includes('index.html')) {
+        // If on the main page (index.html)
+        renderRadioStations(stationsList);
+    } else if (window.location.pathname.includes('player.html')) {
+        // If on the player page (player.html)
+        const storedStation = JSON.parse(localStorage.getItem('currentStation'));
+        if (storedStation) {
+            showPlayer(storedStation);
+        }
+    }
+
+    // Record button functionality
+    recordButton.addEventListener('click', () => {
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(stream => {
+                    const mediaStream = audioPlayer.captureStream(); // Capture the audio stream from the player
+                    mediaRecorder = new MediaRecorder(mediaStream);
+
+                    mediaRecorder.ondataavailable = (event) => {
+                        audioChunks.push(event.data);
+                    };
+
+                    mediaRecorder.onstop = () => {
+                        const blob = new Blob(audioChunks, { type: 'audio/webm' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `${station.name}-recording.webm`;
+                        a.click();
+                    };
+
+                    mediaRecorder.start();
+                    recordButton.disabled = true;
+                    stopButton.disabled = false;
+                })
+                .catch(err => console.error("Error capturing audio:", err));
+        } else {
+            alert('Audio recording is not supported on this browser.');
+        }
+    });
+
+    // Stop recording button functionality
+    stopButton.addEventListener('click', () => {
+        if (mediaRecorder) {
+            mediaRecorder.stop();
+            recordButton.disabled = false;
+            stopButton.disabled = true;
+        }
+    });
 });
