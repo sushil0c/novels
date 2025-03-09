@@ -5,7 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Radio Player</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Basic Styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #faafe3;
+            color: #f0f0ff;
+            text-align: center;
+        }
+
+        #player {
+            padding: 20px;
+        }
+
+        button {
+            padding: 10px;
+            margin: 10px;
+            background-color: #008CBA;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #005f73;
+        }
+
+        input[type="range"] {
+            margin-top: 10px;
+        }
+
+        #stationDetails {
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
     <!-- Player Section -->
@@ -28,7 +62,53 @@
         <section id="stationDetails"></section>
     </section>
 
-    <script src="radio.js"></script> <!-- Include radio.js -->
-    <script src="script.js"></script> <!-- Include script.js -->
+    <script>
+        // Get the selected station from localStorage
+        const currentStation = JSON.parse(localStorage.getItem('currentStation'));
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playPauseButton = document.getElementById('playPause');
+        const backButton = document.getElementById('backButton');
+        const stationDetails = document.getElementById('stationDetails');
+
+        if (!currentStation) {
+            alert('No station data found.');
+        }
+
+        // Show player and station details
+        document.getElementById('stationName').textContent = currentStation.name;
+        stationDetails.innerHTML = `
+            <h2>Station Details</h2>
+            <p><strong>Name:</strong> ${currentStation.name}</p>
+            <p><strong>Description:</strong> ${currentStation.description || 'No description available.'}</p>
+            <p><strong>Location:</strong> ${currentStation.address}</p>
+        `;
+
+        // Set the audio source and start playing
+        audioPlayer.src = currentStation.streamUrl;
+        audioPlayer.load();
+        audioPlayer.play();
+
+        // Play/Pause button functionality
+        playPauseButton.addEventListener('click', () => {
+            if (audioPlayer.paused) {
+                audioPlayer.play();
+                playPauseButton.textContent = 'Pause';
+            } else {
+                audioPlayer.pause();
+                playPauseButton.textContent = 'Play';
+            }
+        });
+
+        // Back button to go back to the station list
+        backButton.addEventListener('click', () => {
+            window.history.back(); // Go back to the station list page
+        });
+
+        // Volume control functionality
+        const volumeControl = document.getElementById('volumeControl');
+        volumeControl.addEventListener('input', () => {
+            audioPlayer.volume = volumeControl.value;
+        });
+    </script>
 </body>
 </html>
